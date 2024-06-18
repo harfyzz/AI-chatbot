@@ -19,6 +19,8 @@
 		34740F8B2C2213A000584DF6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
 		34740F8D2C2213A100584DF6 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		34740F902C2213A100584DF6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
+		34740F972C22198900584DF6 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
+		34740F982C221A9800584DF6 /* AI-chatbot-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "AI-chatbot-Info.plist"; sourceTree = SOURCE_ROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -51,8 +53,10 @@
 		34740F882C2213A000584DF6 /* AI chatbot */ = {
 			isa = PBXGroup;
 			children = (
+				34740F982C221A9800584DF6 /* AI-chatbot-Info.plist */,
 				34740F892C2213A000584DF6 /* AI_chatbotApp.swift */,
 				34740F8B2C2213A000584DF6 /* ContentView.swift */,
+				34740F972C22198900584DF6 /* Config.xcconfig */,
 				34740F8D2C2213A100584DF6 /* Assets.xcassets */,
 				34740F8F2C2213A100584DF6 /* Preview Content */,
 			);
@@ -147,6 +151,7 @@
 /* Begin XCBuildConfiguration section */
 		34740F922C2213A100584DF6 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34740F972C22198900584DF6 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -210,6 +215,7 @@
 		};
 		34740F932C2213A100584DF6 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 34740F972C22198900584DF6 /* Config.xcconfig */;
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
@@ -275,6 +281,7 @@
 				DEVELOPMENT_TEAM = KL7QL6GKB9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "AI-chatbot-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -304,6 +311,7 @@
 				DEVELOPMENT_TEAM = KL7QL6GKB9;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = "AI-chatbot-Info.plist";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
