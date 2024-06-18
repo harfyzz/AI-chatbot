@@ -6,8 +6,11 @@
 //
 
 import SwiftUI
+import GoogleGenerativeAI
 
 struct ContentView: View {
+    
+    let model = GenerativeModel(name: "gemini-1.5-flash", apiKey:APIKey.default )
     @State var yourMessage = ""
     var body: some View {
         VStack {
@@ -20,8 +23,6 @@ struct ContentView: View {
                     Text("Send")
                 })
             }
-        }.onAppear{
-            print(Bundle.main.infoDictionary? ["API_KEY"] as? String)
         }
         .padding()
     }

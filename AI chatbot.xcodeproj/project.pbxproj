@@ -11,6 +11,8 @@
 		34740F8C2C2213A000584DF6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34740F8B2C2213A000584DF6 /* ContentView.swift */; };
 		34740F8E2C2213A100584DF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34740F8D2C2213A100584DF6 /* Assets.xcassets */; };
 		34740F912C2213A100584DF6 /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34740F902C2213A100584DF6 /* Preview Assets.xcassets */; };
+		34740F9A2C2225AD00584DF6 /* apiKey.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34740F992C2225AD00584DF6 /* apiKey.swift */; };
+		34740F9D2C2228E600584DF6 /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 34740F9C2C2228E600584DF6 /* GoogleGenerativeAI */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -21,6 +23,7 @@
 		34740F902C2213A100584DF6 /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
 		34740F972C22198900584DF6 /* Config.xcconfig */ = {isa = PBXFileReference; lastKnownFileType = text.xcconfig; path = Config.xcconfig; sourceTree = "<group>"; };
 		34740F982C221A9800584DF6 /* AI-chatbot-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "AI-chatbot-Info.plist"; sourceTree = SOURCE_ROOT; };
+		34740F992C2225AD00584DF6 /* apiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = apiKey.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -28,6 +31,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34740F9D2C2228E600584DF6 /* GoogleGenerativeAI in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -56,6 +60,7 @@
 				34740F982C221A9800584DF6 /* AI-chatbot-Info.plist */,
 				34740F892C2213A000584DF6 /* AI_chatbotApp.swift */,
 				34740F8B2C2213A000584DF6 /* ContentView.swift */,
+				34740F992C2225AD00584DF6 /* apiKey.swift */,
 				34740F972C22198900584DF6 /* Config.xcconfig */,
 				34740F8D2C2213A100584DF6 /* Assets.xcassets */,
 				34740F8F2C2213A100584DF6 /* Preview Content */,
@@ -87,6 +92,9 @@
 			dependencies = (
 			);
 			name = "AI chatbot";
+			packageProductDependencies = (
+				34740F9C2C2228E600584DF6 /* GoogleGenerativeAI */,
+			);
 			productName = "AI chatbot";
 			productReference = 34740F862C2213A000584DF6 /* AI chatbot.app */;
 			productType = "com.apple.product-type.application";
@@ -115,6 +123,9 @@
 				Base,
 			);
 			mainGroup = 34740F7D2C2213A000584DF6;
+			packageReferences = (
+				34740F9B2C2228E600584DF6 /* XCRemoteSwiftPackageReference "generative-ai-swift" */,
+			);
 			productRefGroup = 34740F872C2213A000584DF6 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -141,6 +152,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34740F9A2C2225AD00584DF6 /* apiKey.swift in Sources */,
 				34740F8C2C2213A000584DF6 /* ContentView.swift in Sources */,
 				34740F8A2C2213A000584DF6 /* AI_chatbotApp.swift in Sources */,
 			);
@@ -352,6 +364,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		34740F9B2C2228E600584DF6 /* XCRemoteSwiftPackageReference "generative-ai-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google-gemini/generative-ai-swift";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 0.5.4;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		34740F9C2C2228E600584DF6 /* GoogleGenerativeAI */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 34740F9B2C2228E600584DF6 /* XCRemoteSwiftPackageReference "generative-ai-swift" */;
+			productName = GoogleGenerativeAI;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 34740F7E2C2213A000584DF6 /* Project object */;
 }
