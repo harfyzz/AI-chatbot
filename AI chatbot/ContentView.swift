@@ -11,20 +11,19 @@ import GoogleGenerativeAI
 struct ContentView: View {
     
     let model = GenerativeModel(name: "gemini-1.5-flash", apiKey:APIKey.default )
-    @State var yourMessage = ""
+    @State var userMessage = ""
+    @State var response = "How can I help you?"
     var body: some View {
         VStack {
             HStack{
-                TextField("enter message here", text: $yourMessage)
+                TextField("enter message here", text: $userMessage)
                     .textFieldStyle(.roundedBorder)
                 Button(action: {
-                    
                 }, label: {
                     Text("Send")
                 })
             }
-        }
-        .padding()
+        }.padding()
     }
 }
 
