@@ -19,7 +19,7 @@ struct ContentView: View {
     @State var isSentByYou = true
     let geminiModel = GenerativeModel(name: "gemini-1.5-flash", apiKey:APIKey.default )
     @State var userMessage = ""
-    @State var response = "How can I help you today?"
+    @State var response = ""
     @State var isLoading = false
     var body: some View {
         VStack {
@@ -55,7 +55,7 @@ struct ContentView: View {
                 }
                 .scrollIndicators(.hidden)
                 .defaultScrollAnchor(.bottom)
-                .onChange(of: messages) { oldValue, newValue in
+                .onChange(of: messages.count) { oldValue, newValue in
                     withAnimation {
                         proxy.scrollTo(newValue, anchor: .bottom)
                     }
@@ -67,10 +67,6 @@ struct ContentView: View {
                     .padding(12)
                     .background(.gray.opacity(0.1))
                     .clipShape(RoundedRectangle(cornerRadius: 32))
-                    .onSubmit {
-                        sendMessage()
-                        generateResponse()
-                    }
                 Button(action: {
                     sendMessage()
                     generateResponse()
@@ -90,11 +86,12 @@ struct ContentView: View {
         Task {
             do {
                 let geminiAnswer = try await geminiModel.generateContent(userPrompt)
-                isLoading = false
                 response = geminiAnswer.text ?? ""
-                userMessage = ""
             } catch {
                 response = "something went wrong\(error.localizedDescription)"
+            }
+            withAnimation(.bouncy){
+                isLoading = false
             }
             geminiMessage.content = response
             geminiMessage.time = Date()
@@ -112,11 +109,15 @@ struct ContentView: View {
         newMessage.time = Date()
         newMessage.sender = "You"
         context.insert(newMessage)
-        withAnimation(.bouncy) {
-            try? context.save()
+        do {
+            try context.save()
+        } catch {
+            print("Failed to save context: \(error)")
+        }
+        
             userMessage = ""
             isLoading = true
-        }
+        
         
     }
 }
