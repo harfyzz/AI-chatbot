@@ -7,37 +7,60 @@
 
 import SwiftUI
 import GoogleGenerativeAI
+import SwiftData
 
 struct ContentView: View {
     
-    let model = GenerativeModel(name: "gemini-1.5-flash", apiKey:APIKey.default )
+    @Environment(\.modelContext) private var context
+    @Query var messages:[Message]
+    @State var newMessage = Message()
+    @State var geminiMessage = Message()
+    
+    @State var isSentByYou = true
+    let geminiModel = GenerativeModel(name: "gemini-1.5-flash", apiKey:APIKey.default )
     @State var userMessage = ""
-    @State var response:LocalizedStringKey = "How can I help you today?"
+    @State var response = "How can I help you today?"
     @State var isLoading = false
     var body: some View {
         VStack {
             Text("Chat with Gemini")
                 .font(.title)
                 .padding()
-            if isLoading == false {
+            ScrollViewReader{proxy in
                 ScrollView{
-                    Text(response)
-                        .animation(/*@START_MENU_TOKEN@*/.easeIn/*@END_MENU_TOKEN@*/, value: response)
-                        .contentTransition(.numericText())
-                        .font(.callout)
-                        .foregroundStyle(.gray)
+                    ForEach (messages) { text in
+                        VStack{
+                            ChatBubble(isSentByYou: isSentByYou, textInBubble: text.content, sender: text.sender, timeSent: text.time)
+                            Divider()
+                        }
+                    }
+                    if isLoading {
+                        ZStack{
+                            HStack{
+                                HStack{
+                                    Circle()
+                                        .frame(height: 4)
+                                    Circle()
+                                        .frame(height: 4)
+                                    Circle()
+                                        .frame(height: 4)
+                                }.foregroundStyle(.gray)
+                                    .padding(8)
+                                    .background(.gray.opacity(0.1))
+                                    .clipShape(RoundedRectangle(cornerRadius: 32))
+                                Spacer()
+                            }
+                        }
+                    }
                 }
                 .scrollIndicators(.hidden)
-            } else {
-                Spacer()
-                HStack{Spacer()
-                    ProgressView()
-                        .progressViewStyle(.circular)
-                    Spacer()
+                .defaultScrollAnchor(.bottom)
+                .onChange(of: messages) { oldValue, newValue in
+                    withAnimation {
+                        proxy.scrollTo(newValue, anchor: .bottom)
+                    }
                 }
-                Spacer()
             }
-                Spacer()
             HStack(alignment:.bottom){
                 TextField("enter message here", text: $userMessage, axis: .vertical)
                     .lineLimit(4)
@@ -45,9 +68,11 @@ struct ContentView: View {
                     .background(.gray.opacity(0.1))
                     .clipShape(RoundedRectangle(cornerRadius: 32))
                     .onSubmit {
+                        sendMessage()
                         generateResponse()
                     }
                 Button(action: {
+                    sendMessage()
                     generateResponse()
                 }, label: {
                     Image(systemName: "arrow.up")
@@ -58,18 +83,39 @@ struct ContentView: View {
                 })
             }
         }.padding()
+        
     }
     func generateResponse() {
-        isLoading = true
+        let userPrompt = messages.last?.content ?? ""
         Task {
             do {
-                let geminiAnswer = try await model.generateContent(userMessage)
+                let geminiAnswer = try await geminiModel.generateContent(userPrompt)
                 isLoading = false
-                response = LocalizedStringKey( geminiAnswer.text ?? "")
+                response = geminiAnswer.text ?? ""
                 userMessage = ""
             } catch {
                 response = "something went wrong\(error.localizedDescription)"
             }
+            geminiMessage.content = response
+            geminiMessage.time = Date()
+            geminiMessage.sender = "Gemini"
+            context.insert(geminiMessage)
+            withAnimation(.bouncy) {
+                try? context.save()
+            }
+        }
+        
+    }
+    
+    func sendMessage() {
+        newMessage.content = userMessage
+        newMessage.time = Date()
+        newMessage.sender = "You"
+        context.insert(newMessage)
+        withAnimation(.bouncy) {
+            try? context.save()
+            userMessage = ""
+            isLoading = true
         }
         
     }

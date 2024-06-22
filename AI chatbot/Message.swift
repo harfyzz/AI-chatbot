@@ -9,18 +9,27 @@ import Foundation
 import SwiftData
 
 @Model
-class Message:Identifiable {
-    var id = UUID()
-    var sender = ["you", "Gemini"]
-    var content = ""
-    var time = Date()
-    var bubbleColor = ""
+final class Message:Identifiable {
+    @Attribute(.unique)
+    var id:UUID
+    var content:String
+    var time:Date
+    var sender:String
     
-    init(id: UUID = UUID(), sender: [String] = ["you", "Gemini"], content: String = "", time: Date = Date(), bubbleColor: String = "") {
-        self.id = id
-        self.sender = sender
-        self.content = content
-        self.time = time
-        self.bubbleColor = bubbleColor
+    
+    init() {
+        id = UUID()
+        content = ""
+        time = Date()
+        sender = ""
+        
+    }
+    
+    func timeFromDate(input:Date) -> String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateFormat = "HH:mm"
+        let formattedDate = dateFormatter.string(from: input)
+        return formattedDate
     }
 }
+
