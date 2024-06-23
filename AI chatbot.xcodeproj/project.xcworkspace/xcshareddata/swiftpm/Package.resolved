@@ -1,5 +1,5 @@
 {
-  "originHash" : "cfd9dceaaf0999faf0fb4e9d630e3095c6e6af0dc9e51ef7f4fd6fc3f4ed79fb",
+  "originHash" : "48d6d7aac05ce2ec9dae75e2c3efc8c6c4165b78d9c5f9dabf77598e81ec6836",
   "pins" : [
     {
       "identity" : "generative-ai-swift",
@@ -8,6 +8,15 @@
       "state" : {
         "revision" : "54784005b57c2235a7669e0c12e8dafa68f0ca5f",
         "version" : "0.5.4"
+      }
+    },
+    {
+      "identity" : "rive-ios",
+      "kind" : "remoteSourceControl",
+      "location" : "https://github.com/rive-app/rive-ios.git",
+      "state" : {
+        "revision" : "60dccf23d893adabe2af3fd347be46020b0ebfef",
+        "version" : "5.14.0"
       }
     }
   ],

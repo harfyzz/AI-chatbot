@@ -15,6 +15,8 @@
 		34740F9D2C2228E600584DF6 /* GoogleGenerativeAI in Frameworks */ = {isa = PBXBuildFile; productRef = 34740F9C2C2228E600584DF6 /* GoogleGenerativeAI */; };
 		34B505562C26DBC700ACF2DA /* Message.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B505552C26DBC700ACF2DA /* Message.swift */; };
 		34B505582C26E0D900ACF2DA /* ChatBubble.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34B505572C26E0D900ACF2DA /* ChatBubble.swift */; };
+		34B5055C2C28887200ACF2DA /* RiveRuntime in Frameworks */ = {isa = PBXBuildFile; productRef = 34B5055B2C28887200ACF2DA /* RiveRuntime */; };
+		34B5055E2C2888B000ACF2DA /* violet.riv in Resources */ = {isa = PBXBuildFile; fileRef = 34B5055D2C2888B000ACF2DA /* violet.riv */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -28,6 +30,7 @@
 		34740F992C2225AD00584DF6 /* apiKey.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = apiKey.swift; sourceTree = "<group>"; };
 		34B505552C26DBC700ACF2DA /* Message.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Message.swift; sourceTree = "<group>"; };
 		34B505572C26E0D900ACF2DA /* ChatBubble.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatBubble.swift; sourceTree = "<group>"; };
+		34B5055D2C2888B000ACF2DA /* violet.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = violet.riv; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -36,6 +39,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				34740F9D2C2228E600584DF6 /* GoogleGenerativeAI in Frameworks */,
+				34B5055C2C28887200ACF2DA /* RiveRuntime in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -67,6 +71,7 @@
 				34B505572C26E0D900ACF2DA /* ChatBubble.swift */,
 				34B505552C26DBC700ACF2DA /* Message.swift */,
 				34740F972C22198900584DF6 /* Config.xcconfig */,
+				34B5055D2C2888B000ACF2DA /* violet.riv */,
 				34B505592C26F7BF00ACF2DA /* Gemini Setup */,
 				34740F8D2C2213A100584DF6 /* Assets.xcassets */,
 				34740F8F2C2213A100584DF6 /* Preview Content */,
@@ -108,6 +113,7 @@
 			name = "AI chatbot";
 			packageProductDependencies = (
 				34740F9C2C2228E600584DF6 /* GoogleGenerativeAI */,
+				34B5055B2C28887200ACF2DA /* RiveRuntime */,
 			);
 			productName = "AI chatbot";
 			productReference = 34740F862C2213A000584DF6 /* AI chatbot.app */;
@@ -139,6 +145,7 @@
 			mainGroup = 34740F7D2C2213A000584DF6;
 			packageReferences = (
 				34740F9B2C2228E600584DF6 /* XCRemoteSwiftPackageReference "generative-ai-swift" */,
+				34B5055A2C28887200ACF2DA /* XCRemoteSwiftPackageReference "rive-ios" */,
 			);
 			productRefGroup = 34740F872C2213A000584DF6 /* Products */;
 			projectDirPath = "";
@@ -154,6 +161,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				34B5055E2C2888B000ACF2DA /* violet.riv in Resources */,
 				34740F912C2213A100584DF6 /* Preview Assets.xcassets in Resources */,
 				34740F8E2C2213A100584DF6 /* Assets.xcassets in Resources */,
 			);
@@ -390,6 +398,14 @@
 				minimumVersion = 0.5.4;
 			};
 		};
+		34B5055A2C28887200ACF2DA /* XCRemoteSwiftPackageReference "rive-ios" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/rive-app/rive-ios.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.14.0;
+			};
+		};
 /* End XCRemoteSwiftPackageReference section */
 
 /* Begin XCSwiftPackageProductDependency section */
@@ -397,6 +413,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 34740F9B2C2228E600584DF6 /* XCRemoteSwiftPackageReference "generative-ai-swift" */;
 			productName = GoogleGenerativeAI;
+		};
+		34B5055B2C28887200ACF2DA /* RiveRuntime */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 34B5055A2C28887200ACF2DA /* XCRemoteSwiftPackageReference "rive-ios" */;
+			productName = RiveRuntime;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
