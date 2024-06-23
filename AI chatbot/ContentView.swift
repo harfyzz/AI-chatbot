@@ -15,7 +15,6 @@ struct ContentView: View {
     @Query var messages:[Message]
     
     
-    @State var isSentByYou = true
     let geminiModel = GenerativeModel(name: "gemini-1.5-flash", apiKey:APIKey.default )
     @State var userMessage = ""
     @State var response = ""
@@ -28,21 +27,19 @@ struct ContentView: View {
             ScrollViewReader{proxy in
                 ScrollView{
                     ForEach (messages) { text in
-                        VStack{
-                            ChatBubble(isSentByYou: isSentByYou, textInBubble: text.content, sender: text.sender, timeSent: text.time)
-                            Divider()
-                        }
+                        ChatBubble(isSentByYou: text.isSentByYou, textInBubble:LocalizedStringKey( text.content), sender: text.sender, timeSent: text.time)
+                            .padding(.bottom, 12)
                     }
                     if isLoading {
                         ZStack{
                             HStack{
                                 HStack{
                                     Circle()
-                                        .frame(height: 4)
+                                        .frame(height: 6)
                                     Circle()
-                                        .frame(height: 4)
+                                        .frame(height: 6)
                                     Circle()
-                                        .frame(height: 4)
+                                        .frame(height: 6)
                                 }.foregroundStyle(.gray)
                                     .padding(8)
                                     .background(.gray.opacity(0.1))
@@ -53,15 +50,18 @@ struct ContentView: View {
                     }
                 }
                 .scrollIndicators(.hidden)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
                 .defaultScrollAnchor(.bottom)
                 .onChange(of: messages) { oldValue, newValue in
-                    withAnimation {
-                        proxy.scrollTo(newValue, anchor: .bottom)
+                    if let lastMessageIndex = messages.indices.last {
+                        withAnimation {
+                            proxy.scrollTo(lastMessageIndex, anchor: .bottom)
+                        }
                     }
                 }
             }
             HStack(alignment:.bottom){
-                TextField("enter message here", text: $userMessage, axis: .vertical)
+                TextField("Enter message here", text: $userMessage, axis: .vertical)
                     .lineLimit(4)
                     .padding(12)
                     .background(.gray.opacity(0.1))
@@ -79,8 +79,8 @@ struct ContentView: View {
                         .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                 })
                 .disabled(userMessage.isEmpty ? true : false)
-            }
-        }.padding()
+            }.padding(.bottom, 12)
+        }.padding(.horizontal)
         
     }
     
@@ -88,6 +88,7 @@ struct ContentView: View {
         let newMessage = Message()
         newMessage.content = userMessage
         newMessage.time = Date()
+        newMessage.isSentByYou = true
         newMessage.sender = "You"
         context.insert(newMessage)
         do {
@@ -111,6 +112,7 @@ struct ContentView: View {
                 let geminiMessage = Message()
                 geminiMessage.content = response
                 geminiMessage.time = Date()
+                geminiMessage.isSentByYou = false
                 geminiMessage.sender = "Gemini"
                 context.insert(geminiMessage)
                 withAnimation {

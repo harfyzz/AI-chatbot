@@ -15,6 +15,7 @@ final class Message:Identifiable {
     var content:String
     var time:Date
     var sender:String
+    var isSentByYou:Bool
     
     
     init() {
@@ -22,14 +23,10 @@ final class Message:Identifiable {
         content = ""
         time = Date()
         sender = ""
+        isSentByYou = true
         
     }
     
-    func timeFromDate(input:Date) -> String {
-        let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
-        let formattedDate = dateFormatter.string(from: input)
-        return formattedDate
-    }
+   
 }
 
