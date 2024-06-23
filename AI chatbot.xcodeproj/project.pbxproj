@@ -66,6 +66,7 @@
 				34740F8B2C2213A000584DF6 /* ContentView.swift */,
 				34B505572C26E0D900ACF2DA /* ChatBubble.swift */,
 				34B505552C26DBC700ACF2DA /* Message.swift */,
+				34740F972C22198900584DF6 /* Config.xcconfig */,
 				34B505592C26F7BF00ACF2DA /* Gemini Setup */,
 				34740F8D2C2213A100584DF6 /* Assets.xcassets */,
 				34740F8F2C2213A100584DF6 /* Preview Content */,
@@ -85,7 +86,6 @@
 			isa = PBXGroup;
 			children = (
 				34740F992C2225AD00584DF6 /* apiKey.swift */,
-				34740F972C22198900584DF6 /* Config.xcconfig */,
 			);
 			path = "Gemini Setup";
 			sourceTree = "<group>";

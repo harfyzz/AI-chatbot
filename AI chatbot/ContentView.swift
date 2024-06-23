@@ -19,7 +19,6 @@ struct ContentView: View {
     let geminiModel = GenerativeModel(name: "gemini-1.5-flash", apiKey:APIKey.default )
     @State var userMessage = ""
     @State var response = ""
-    @State var savedQuestion = ""
     @State var isLoading = false
     var body: some View {
         VStack {
