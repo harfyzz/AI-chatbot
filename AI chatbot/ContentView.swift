@@ -13,13 +13,13 @@ struct ContentView: View {
     
     @Environment(\.modelContext) private var context
     @Query var messages:[Message]
-    @State var newMessage = Message()
-    @State var geminiMessage = Message()
+    
     
     @State var isSentByYou = true
     let geminiModel = GenerativeModel(name: "gemini-1.5-flash", apiKey:APIKey.default )
     @State var userMessage = ""
     @State var response = ""
+    @State var savedQuestion = ""
     @State var isLoading = false
     var body: some View {
         VStack {
@@ -55,7 +55,7 @@ struct ContentView: View {
                 }
                 .scrollIndicators(.hidden)
                 .defaultScrollAnchor(.bottom)
-                .onChange(of: messages.count) { oldValue, newValue in
+                .onChange(of: messages) { oldValue, newValue in
                     withAnimation {
                         proxy.scrollTo(newValue, anchor: .bottom)
                     }
@@ -70,6 +70,8 @@ struct ContentView: View {
                 Button(action: {
                     sendMessage()
                     generateResponse()
+                    
+                    
                 }, label: {
                     Image(systemName: "arrow.up")
                         .foregroundStyle(.white)
@@ -77,34 +79,14 @@ struct ContentView: View {
                         .background(.blue)
                         .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
                 })
+                .disabled(userMessage.isEmpty ? true : false)
             }
         }.padding()
         
     }
-    func generateResponse() {
-        let userPrompt = messages.last?.content ?? ""
-        Task {
-            do {
-                let geminiAnswer = try await geminiModel.generateContent(userPrompt)
-                response = geminiAnswer.text ?? ""
-            } catch {
-                response = "something went wrong\(error.localizedDescription)"
-            }
-            withAnimation(.bouncy){
-                isLoading = false
-            }
-            geminiMessage.content = response
-            geminiMessage.time = Date()
-            geminiMessage.sender = "Gemini"
-            context.insert(geminiMessage)
-            withAnimation(.bouncy) {
-                try? context.save()
-            }
-        }
-        
-    }
     
     func sendMessage() {
+        let newMessage = Message()
         newMessage.content = userMessage
         newMessage.time = Date()
         newMessage.sender = "You"
@@ -115,11 +97,38 @@ struct ContentView: View {
             print("Failed to save context: \(error)")
         }
         
+        withAnimation {
             userMessage = ""
             isLoading = true
-        
+        }
+    }
+    
+    func generateResponse() {
+        let userPrompt = messages.last?.content ?? ""
+        Task {
+            do {
+                let geminiAnswer = try await geminiModel.generateContent(userPrompt)
+                response = geminiAnswer.text ?? "Nothing to display here..."
+                let geminiMessage = Message()
+                geminiMessage.content = response
+                geminiMessage.time = Date()
+                geminiMessage.sender = "Gemini"
+                context.insert(geminiMessage)
+                withAnimation {
+                    isLoading = false
+                }
+                
+            } catch {
+                print("something went wrong\(error.localizedDescription)")
+            }
+        }
+        withAnimation(.bouncy){
+            try? context.save()
+        }
         
     }
+    
+    
 }
 
 #Preview {
