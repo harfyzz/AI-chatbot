@@ -30,26 +30,26 @@ struct ContentView: View {
                         ChatBubble(isSentByYou: text.isSentByYou, textInBubble:LocalizedStringKey( text.content), sender: text.sender, timeSent: text.time)
                             .padding(.bottom, 12)
                     }
+                        if isLoading {
+                                HStack{
+                                    HStack{
+                                        Circle()
+                                            .frame(height: 6)
+                                        Circle()
+                                            .frame(height: 6)
+                                        Circle()
+                                            .frame(height: 6)
+                                    }.foregroundStyle(.gray)
+                                        .padding(8)
+                                        .background(.gray.opacity(0.1))
+                                        .clipShape(RoundedRectangle(cornerRadius: 32))
+                                    Spacer()
+                                }.padding(.bottom, 16)
+                            
+                        }
                 }.padding(.bottom, 70)
                     .padding(.top, 88)
-                    if isLoading {
-                        ZStack{
-                            HStack{
-                                HStack{
-                                    Circle()
-                                        .frame(height: 6)
-                                    Circle()
-                                        .frame(height: 6)
-                                    Circle()
-                                        .frame(height: 6)
-                                }.foregroundStyle(.gray)
-                                    .padding(8)
-                                    .background(.gray.opacity(0.1))
-                                    .clipShape(RoundedRectangle(cornerRadius: 32))
-                                Spacer()
-                            }
-                        }
-                    }
+                    
                 }
                 .padding(.horizontal)
                 .scrollIndicators(.hidden)
@@ -68,10 +68,6 @@ struct ContentView: View {
                 VStack(spacing:8){
                     violet.view()
                         .frame(height: 44)
-                    Text("Violet")
-                        .font(.headline)
-                        .fontWeight(.medium)
-                        .foregroundStyle(.gray)
                         .padding(.bottom)
                 }
                 Spacer()

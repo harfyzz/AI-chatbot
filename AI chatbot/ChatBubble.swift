@@ -52,8 +52,25 @@ struct ChatBubble: View {
     }
     func timeFromDate(input:Date) -> String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateFormat = "HH:mm"
+        dateFormatter.dateFormat = "EEEE, MMM d"
         let formattedDate = dateFormatter.string(from: input)
+        let calendar = Calendar.current
+        let currentdate = Date()
+        
+        // Check if the input date is yesterday
+        if calendar.component(.month, from: input) == (calendar.component(.month, from: currentdate) - 1) &&
+            calendar.component(.year, from: input) == (calendar.component(.year, from: currentdate)) {
+            dateFormatter.dateFormat = "MMMM"
+            return dateFormatter.string(from: input)
+        }
+        
+        // Check if the input date is today or yesterday
+        if calendar.isDateInToday(input) {
+            dateFormatter.dateFormat = "HH:mm"
+            return dateFormatter.string(from: input)
+        } else if calendar.isDateInYesterday(input) {
+            return "Yesterday"
+        }
         return formattedDate
     }
     
