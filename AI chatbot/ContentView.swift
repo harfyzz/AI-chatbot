@@ -23,14 +23,24 @@ struct ContentView: View {
     @State var isLoading = false
     var body: some View {
         ZStack {
-            ScrollViewReader{proxy in
+            
                 ScrollView{
-                    VStack{
-                    ForEach (messages) { text in
-                        ChatBubble(isSentByYou: text.isSentByYou, textInBubble:LocalizedStringKey( text.content), sender: text.sender, timeSent: text.time)
-                            .padding(.bottom, 12)
-                    }
-                        if isLoading {
+                    ScrollViewReader{proxy in
+                        VStack{
+                            ForEach (messages) { text in
+                                ChatBubble(isSentByYou: text.isSentByYou, textInBubble:LocalizedStringKey( text.content), sender: text.sender, timeSent: text.time)
+                                    .padding(.bottom, 12)
+                                    .id(text.id)
+                                    
+                                    }
+                        }
+                        .onChange(of: messages.count) { _, _ in
+                            withAnimation(.easeInOut){
+                                proxy.scrollTo(messages.last?.id, anchor: .bottom)
+                            }
+                        }
+                            if isLoading {
+                                
                                 HStack{
                                     HStack{
                                         Circle()
@@ -45,24 +55,25 @@ struct ContentView: View {
                                         .clipShape(RoundedRectangle(cornerRadius: 32))
                                     Spacer()
                                 }.padding(.bottom, 16)
-                            
+                                    .id("loader")
+                                    .onAppear{
+                                        withAnimation {
+                                            proxy.scrollTo("loader",anchor: .bottom)
+                                        }
+                                        
+                                    }
+                                    
+                                
+                            }
                         }
                 }.padding(.bottom, 70)
-                    .padding(.top, 88)
-                    
-                }
+                .padding(.top, 88)
                 .padding(.horizontal)
                 .scrollIndicators(.hidden)
                 .clipShape(RoundedRectangle(cornerRadius: 16))
                 .defaultScrollAnchor(.bottom)
-                .onChange(of: messages) { oldValue, newValue in
-                    if let lastMessageIndex = messages.indices.last {
-                        withAnimation {
-                            proxy.scrollTo(lastMessageIndex, anchor: .bottom)
-                        }
-                    }
-                }
-            }
+                
+            
             VStack{
             HStack{Spacer()
                 VStack(spacing:8){
