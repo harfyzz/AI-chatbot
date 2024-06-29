@@ -23,66 +23,41 @@ struct ContentView: View {
     @State var isLoading = false
     var body: some View {
         ZStack {
-            
+            ScrollViewReader{proxy in
                 ScrollView{
-                    ScrollViewReader{proxy in
-                        VStack{
-                            ForEach (messages) { text in
-                                ChatBubble(isSentByYou: text.isSentByYou, textInBubble:LocalizedStringKey( text.content), sender: text.sender, timeSent: text.time)
-                                    .padding(.bottom, 12)
-                                    .id(text.id)
-                                    
+                    VStack{
+                        ForEach (messages) { text in
+                            ChatBubble(isSentByYou: text.isSentByYou, textInBubble:LocalizedStringKey( text.content), sender: text.sender, timeSent: text.time)
+                                .padding(.bottom, 12)
+                                .id(text.id)
+                                .contextMenu(ContextMenu(menuItems: {
+                                    Button("Delete") {
+                                        context.delete(text)
                                     }
+                                }))
                         }
-                        .onChange(of: messages.count) { _, _ in
-                            withAnimation(.easeInOut){
-                                proxy.scrollTo(messages.last?.id, anchor: .bottom)
-                            }
+                    }.onChange(of: messages.count) { _, _ in
+                        withAnimation(.easeInOut){
+                            proxy.scrollTo(messages.last?.id, anchor: .bottom)
                         }
-                            if isLoading {
-                                
-                                HStack{
-                                    HStack{
-                                        Circle()
-                                            .frame(height: 6)
-                                        Circle()
-                                            .frame(height: 6)
-                                        Circle()
-                                            .frame(height: 6)
-                                    }.foregroundStyle(.gray)
-                                        .padding(8)
-                                        .background(.gray.opacity(0.1))
-                                        .clipShape(RoundedRectangle(cornerRadius: 32))
-                                    Spacer()
-                                }.padding(.bottom, 16)
-                                    .id("loader")
-                                    .onAppear{
-                                        withAnimation {
-                                            proxy.scrollTo("loader",anchor: .bottom)
-                                        }
-                                        
-                                    }
-                                    
-                                
-                            }
-                        }
-                }.padding(.bottom, 70)
-                .padding(.top, 88)
-                .padding(.horizontal)
-                .scrollIndicators(.hidden)
-                .clipShape(RoundedRectangle(cornerRadius: 16))
-                .defaultScrollAnchor(.bottom)
-                
+                    }
+                }.padding(.horizontal)
+                    .padding(.bottom, 70)
+                    .padding(.top, 60)
+                    .scrollIndicators(.hidden)
+                    .defaultScrollAnchor(.bottom)
+            }
+            
             
             VStack{
-            HStack{Spacer()
-                VStack(spacing:8){
-                    violet.view()
-                        .frame(height: 44)
-                        .padding(.bottom)
-                }
-                Spacer()
-            }.background(.ultraThinMaterial)
+                HStack{Spacer()
+                    VStack(spacing:8){
+                        violet.view()
+                            .frame(height: 44)
+                            .padding(.bottom)
+                    }
+                    Spacer()
+                }.background(.ultraThinMaterial)
                 Spacer()
                 HStack(alignment:.bottom){
                     TextField("Talk to Violet...", text: $userMessage, axis: .vertical)
@@ -105,9 +80,9 @@ struct ContentView: View {
                     .disabled(userMessage.isEmpty ? true : false)
                 }.padding(12)
                     .background(.ultraThinMaterial)
+            }
         }
-        }
-            .preferredColorScheme(.light)
+        .preferredColorScheme(.light)
         
         
     }
