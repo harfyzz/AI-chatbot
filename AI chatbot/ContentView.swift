@@ -63,7 +63,11 @@ struct ContentView: View {
                             proxy.scrollTo(messages.last?.id, anchor: .bottom)
                         }
                     }
+                    .padding(.vertical,16)
                 }.padding(.horizontal)
+                    .onTapGesture {
+                        isFocused = false
+                    }
                     .scrollIndicators(.hidden)
                     .defaultScrollAnchor(.bottom)
                 
