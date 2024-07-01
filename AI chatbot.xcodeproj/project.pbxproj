@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3459D4112C327C4D0095B0D6 /* loader.riv in Resources */ = {isa = PBXBuildFile; fileRef = 3459D4102C327C4D0095B0D6 /* loader.riv */; };
 		34740F8A2C2213A000584DF6 /* AI_chatbotApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34740F892C2213A000584DF6 /* AI_chatbotApp.swift */; };
 		34740F8C2C2213A000584DF6 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 34740F8B2C2213A000584DF6 /* ContentView.swift */; };
 		34740F8E2C2213A100584DF6 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 34740F8D2C2213A100584DF6 /* Assets.xcassets */; };
@@ -20,6 +21,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		3459D4102C327C4D0095B0D6 /* loader.riv */ = {isa = PBXFileReference; lastKnownFileType = file; path = loader.riv; sourceTree = "<group>"; };
 		34740F862C2213A000584DF6 /* AI chatbot.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "AI chatbot.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		34740F892C2213A000584DF6 /* AI_chatbotApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AI_chatbotApp.swift; sourceTree = "<group>"; };
 		34740F8B2C2213A000584DF6 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -71,6 +73,7 @@
 				34B505572C26E0D900ACF2DA /* ChatBubble.swift */,
 				34B505552C26DBC700ACF2DA /* Message.swift */,
 				34740F972C22198900584DF6 /* Config.xcconfig */,
+				3459D4102C327C4D0095B0D6 /* loader.riv */,
 				34B5055D2C2888B000ACF2DA /* violet.riv */,
 				34B505592C26F7BF00ACF2DA /* Gemini Setup */,
 				34740F8D2C2213A100584DF6 /* Assets.xcassets */,
@@ -161,6 +164,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				3459D4112C327C4D0095B0D6 /* loader.riv in Resources */,
 				34B5055E2C2888B000ACF2DA /* violet.riv in Resources */,
 				34740F912C2213A100584DF6 /* Preview Assets.xcassets in Resources */,
 				34740F8E2C2213A100584DF6 /* Assets.xcassets in Resources */,

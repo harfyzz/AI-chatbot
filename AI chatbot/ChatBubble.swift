@@ -21,18 +21,12 @@ struct ChatBubble: View {
                 }
                 VStack(alignment:isSentByYou ? .trailing: .leading){
                     Text(textInBubble)
-                        .font(.headline)
                         .fontWeight(.regular)
+                        . font(.system(size: 16))
                         .foregroundStyle(isSentByYou ? .white:.black)
                         .padding()
-                        .background(Color(isSentByYou ? "user": "gemini"))
-                        .clipShape(
-                            .rect(
-                                topLeadingRadius: 28,
-                                bottomLeadingRadius:isSentByYou ? 28 : 4,
-                                bottomTrailingRadius: isSentByYou ? 4 : 28,
-                                topTrailingRadius: 28
-                            ))
+                        .background(Color(isSentByYou ? "user text": "gemini"))
+                        .clipShape(RoundedRectangle(cornerRadius: 32))
                         .frame(maxWidth: 330, alignment:isSentByYou ? .trailing: .leading)
                     
                     

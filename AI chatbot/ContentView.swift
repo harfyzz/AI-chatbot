@@ -18,11 +18,23 @@ struct ContentView: View {
     
     let geminiModel = GenerativeModel(name: "gemini-1.5-flash", apiKey:APIKey.default )
     @State var violet = RiveViewModel(fileName: "violet", fit: .contain)
+    @State var loader = RiveViewModel(fileName: "loader", fit: .contain)
     @State var userMessage = ""
     @State var response = ""
+    @FocusState var isFocused:Bool
     @State var isLoading = false
     var body: some View {
-        ZStack {
+        VStack (spacing:0){
+            HStack{Spacer()
+                VStack(spacing:8){
+                    violet.view()
+                        .frame(height: 44)
+                        .padding(.bottom)
+                }
+                Spacer()
+            }.background(.white)
+            Divider()
+                .foregroundStyle(.gray.opacity(0.3))
             ScrollViewReader{proxy in
                 ScrollView{
                     VStack{
@@ -36,51 +48,65 @@ struct ContentView: View {
                                     }
                                 }))
                         }
+                        if isLoading == true {
+                            HStack{
+                                loader.view()
+                                    .frame(width:50,height: 24)
+                                Spacer()
+                            }.id("loader")
+                            
+                        }
                     }.onChange(of: messages.count) { _, _ in
-                        withAnimation(.easeInOut){
+                        withAnimation(.bouncy){
                             proxy.scrollTo(messages.last?.id, anchor: .bottom)
                         }
                     }
+                    .onChange(of: isLoading) { _, _ in
+                        proxy.scrollTo("loader")
+                    }
                 }.padding(.horizontal)
-                    .padding(.bottom, 70)
-                    .padding(.top, 60)
                     .scrollIndicators(.hidden)
                     .defaultScrollAnchor(.bottom)
             }
-            
-            
-            VStack{
-                HStack{Spacer()
-                    VStack(spacing:8){
-                        violet.view()
-                            .frame(height: 44)
-                            .padding(.bottom)
+            HStack(alignment:.bottom){
+                TextField("Talk to Violet...", text: $userMessage, axis: .vertical)
+                    .lineLimit(4)
+                    .font(.system(size: 16))
+                    .tint(Color("user text"))
+                    .padding(.horizontal)
+                    .padding(.vertical, 10)
+                    .background(.gray.opacity(0.1))
+                    .clipShape(RoundedRectangle(cornerRadius: 32))
+                    .focused($isFocused)
+                    .onSubmit {
+                        if !userMessage.isEmpty {
+                            withAnimation{
+                                sendMessage()
+                                generateResponse()
+                            }
+                        }
                     }
-                    Spacer()
-                }.background(.ultraThinMaterial)
-                Spacer()
-                HStack(alignment:.bottom){
-                    TextField("Talk to Violet...", text: $userMessage, axis: .vertical)
-                        .lineLimit(4)
-                        .padding(12)
-                        .background(.gray.opacity(0.1))
-                        .clipShape(RoundedRectangle(cornerRadius: 32))
-                    Button(action: {
+                Button(action: {
+                    withAnimation{
                         sendMessage()
                         generateResponse()
-                        
-                        
-                    }, label: {
-                        Image(systemName: "arrow.up")
-                            .foregroundStyle(.white)
-                            .padding()
-                            .background(.blue)
-                            .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
-                    })
-                    .disabled(userMessage.isEmpty ? true : false)
-                }.padding(12)
-                    .background(.ultraThinMaterial)
-            }
+                    }
+                    
+                }, label: {
+                    Image(systemName: "arrow.up")
+                        .font(.system(size: 16))
+                        .foregroundStyle(.white)
+                        .padding(10)
+                        .background(Color("user text"))
+                        .clipShape(/*@START_MENU_TOKEN@*/Circle()/*@END_MENU_TOKEN@*/)
+                })
+                .disabled(userMessage.isEmpty ? true : false)
+            }.padding(12)
+                .background(.white)
+            
+        }
+        .onAppear{
+            isFocused = true
         }
         .preferredColorScheme(.light)
         
@@ -104,6 +130,7 @@ struct ContentView: View {
             userMessage = ""
             isLoading = true
         }
+        isFocused = true
     }
     
     func generateResponse() {
