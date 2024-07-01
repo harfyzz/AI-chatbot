@@ -49,25 +49,26 @@ struct ContentView: View {
                                 }))
                         }
                         if isLoading == true {
-                            HStack{
-                                loader.view()
-                                    .frame(width:50,height: 24)
+                         HStack{
+                               loader.view()
+                                   .frame(width:50,height: 24)
+                                   .padding(.bottom)
+                                   
                                 Spacer()
-                            }.id("loader")
+                            }
                             
                         }
                     }.onChange(of: messages.count) { _, _ in
-                        withAnimation(.bouncy){
+                        withAnimation {
                             proxy.scrollTo(messages.last?.id, anchor: .bottom)
                         }
-                    }
-                    .onChange(of: isLoading) { _, _ in
-                        proxy.scrollTo("loader")
                     }
                 }.padding(.horizontal)
                     .scrollIndicators(.hidden)
                     .defaultScrollAnchor(.bottom)
-            }
+                
+            }.id("scroller")
+                .animation(.bouncy, value: "scroller")
             HStack(alignment:.bottom){
                 TextField("Talk to Violet...", text: $userMessage, axis: .vertical)
                     .lineLimit(4)
@@ -150,7 +151,16 @@ struct ContentView: View {
                 }
                 
             } catch {
-                print("something went wrong\(error.localizedDescription)")
+                response = "something went wrong\(error.localizedDescription)"
+                let geminiMessage = Message()
+                geminiMessage.content = response
+                geminiMessage.time = Date()
+                geminiMessage.isSentByYou = false
+                geminiMessage.sender = "Violet"
+                context.insert(geminiMessage)
+                withAnimation {
+                    isLoading = false
+                }
             }
         }
         withAnimation(.bouncy){
